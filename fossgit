@@ -85,7 +85,6 @@ Dir.chdir @git_path
 
 if system 'git status'
   system full_command
-  system 'git checkout trunk'
 else
   print 'Error!  This path is not a Git repository:'
   puts Dir.pwd
