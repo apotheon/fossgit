@@ -6,6 +6,14 @@ def get_option opt, default=nil
   end
 end
 
+def get_repository
+  File.absolute_path(
+    `fossil status`.split(/\n/).select do |line|
+      line.match /^repository: +/
+    end.first.sub /^repository: +/, ''
+  )
+end
+
 @name = File.basename $0
 
 help = <<-EOF
@@ -25,9 +33,9 @@ help = <<-EOF
       -h              Display this help text and exit, ignoring all other
                       arguments.
 
-      -R FOSSILREPO   Specify the location of your Fossil repository,
-                      FOSSILREPO.  This is optional; you may simply use this
-                      tool from within an open checkout of your Fossil
+      -c CHECKOUT     Specify the location of your Fossil repository's open
+                      checkout, CHECKOUT.  This is optional; you may simply use
+                      this tool from within an open checkout of your Fossil
                       repository instead.
 
       GITREPO         Specify the location of your Git repository, GITREPO.
@@ -36,9 +44,9 @@ help = <<-EOF
 
       $ fossgit -h
 
-      $ fossgit -R ~/fossil_repos/projectname.fossil ~/git/projectname
+      $ fossgit -c ~/fossil_checkouts/projectname ~/git/projectname
 
-      $ cd ~/fossil_checkouts; fossgit ~/git/projectname
+      $ cd ~/fossil_checkouts/projectname && fossgit ~/git/projectname
 
 EOF
 
@@ -47,7 +55,7 @@ if ARGV.first == '-h'
   exit
 end
 
-@fossil_path = get_option '-R', Dir.pwd
+@fossil_path = (get_option('-c') or Dir.pwd)
 @fossil_marks = File.join @fossil_path, 'fossil.marks'
 
 @git_path = ARGV.shift
@@ -62,12 +70,14 @@ fossil_command = ['fossil export --git']
 git_command = ['git fast-import']
 
 if File.exist? @git_marks and File.exist? @fossil_marks
-  fossil_command << "--import_marks #{@fossil_marks}"
-  git_command << "--import_marks=#{@git_marks}"
+  fossil_command << "--import-marks #{@fossil_marks}"
+  git_command << "--import-marks=#{@git_marks}"
 end
 
-fossil_command << "--export-marks #{@fossil_marks} #{@fossil_path}"
-git_command << "--export_marks=#{@git_marks}"
+fossil_command << "--export-marks #{@fossil_marks}"
+fossil_command << "-R #{get_repository}"
+
+git_command << "--export-marks=#{@git_marks}"
 
 full_command = [fossil_command.join(' '), git_command.join(' ')].join '|'
 
@@ -75,6 +85,7 @@ Dir.chdir @git_path
 
 if system 'git status'
   system full_command
+  system 'git checkout trunk'
 else
   print 'Error!  This path is not a Git repository:'
   puts Dir.pwd
