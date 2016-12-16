@@ -41,5 +41,6 @@ In order from most preferred to least preferred:
 ## Roadmap
 
 * Make this a stand-alone Ruby Gem some day, maybe.
+* Add tests, maybe.
 * Add automatic GitHub publishing, maybe.
 * Incorporate this functionality into FossRec, a more comprehensive tool.
