@@ -21,7 +21,7 @@ If you have an open checkout for your Fossil repository:
 
 If you do not have an open checkout for your Fossil repository:
 
-    $ fossgit -f /path/to/fossil/repository/file /path/to/git/repsitory
+    $ fossgit -R /path/to/fossil/repository/file /path/to/git/repsitory
 
 ## Dependencies
 
