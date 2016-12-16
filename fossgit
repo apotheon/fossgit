@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+def get_option opt, default=nil
+  ARGV.index(opt).tap do |val|
+    return val ? (ARGV.delete_at val and ARGV.delete_at val) : default
+  end
+end
+
+@fossil_path = get_option '-f', Dir.pwd
+@fossil_marks = File.join @fossil_path, 'fossil.marks'
+
+@git_path = ARGV.shift
+@git_marks = File.join @fossil_path, 'git.marks'
+
+if @git_path.to_s.empty?
+  puts 'Error!  No Git path provided.'
+  exit!
+end
+
+fossil_command = ['fossil export --git']
+git_command = ['git fast-import']
+
+if File.exist? @git_marks and File.exist? @fossil_marks
+  fossil_command << "--import_marks #{@fossil_marks}"
+  git_command << "--import_marks=#{@git_marks}"
+end
+
+fossil_command << "--export-marks #{@fossil_marks} #{@fossil_path}"
+git_command << "--export_marks=#{@git_marks}"
+
+full_command = [fossil_command.join(' '), git_command.join(' ')].join '|'
+
+Dir.chdir git_path
+
+if system 'git status'
+  system full_command
+else
+  print 'Error!  This path is not a Git repository:'
+  puts Dir.pwd
+  exit!
+end
