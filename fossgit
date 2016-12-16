@@ -9,26 +9,42 @@ end
 @name = File.basename $0
 
 help = <<-EOF
+
+  FossGit provides a simple tool for creating Git mirrors of Fossil
+  repositories.  To use it, you need:
+  
+  1. both Fossil SCM and Git installed
+  2. a Fossil repository to mirror (optional: an open checkout)
+  3. a Git repository to use as a mirror
+
   USAGE:  #{@name} -h
-          #{@name} [-f FOSSILREPO] <GITREPO>
+          #{@name} [-f <FOSSILREPO>] <GITREPO>
 
-          -h
+  OPTIONS/ARGUMENTS:
 
-              Display this help text and exit, ignoring all other arguments.
+      -h              Display this help text and exit, ignoring all other
+                      arguments.
 
-          -f FOSSILREPO
+      -f FOSSILREPO   Specify the location of your Fossil repository,
+                      FOSSILREPO.  This is optional; you may simply use this
+                      tool from within an open checkout of your Fossil
+                      repository instead.
 
-              Specify the location of your Fossil repository, FOSSILREPO.  This
-              is optional; you may simply use this tool from within an open
-              checkout of your Fossil repository instead.
+      GITREPO         Specify the location of your Git repository, GITREPO.
 
-          GITREPO
+  EXAMPLES:
 
-              Specify the location of your Git repository, GITREPO.
+      $ fossgit -h
+
+      $ fossgit -f ~/fossil_repos/projectname.fossil ~/git/projectname
+
+      $ cd ~/fossil_checkouts; fossgit ~/git/projectname
+
 EOF
 
 if ARGV.first == '-h'
   puts help
+  exit
 end
 
 @fossil_path = get_option '-f', Dir.pwd
