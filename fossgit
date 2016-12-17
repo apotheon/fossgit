@@ -22,11 +22,11 @@ help = <<-EOF
   repositories.  To use it, you need:
   
   1. both Fossil SCM and Git installed
-  2. a Fossil repository to mirror (optional: an open checkout)
+  2. a Fossil repository to mirror with an open checkout
   3. a Git repository to use as a mirror
 
   USAGE:  #{@name} -h
-          #{@name} [-R <FOSSILREPO>] <GITREPO>
+          #{@name} [-c <CHECKOUT>] <GITREPO>
 
   OPTIONS/ARGUMENTS:
 

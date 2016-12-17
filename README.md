@@ -14,14 +14,10 @@ to the `fossgit` file.
 
 ## Usage
 
-If you have an open checkout for your Fossil repository:
+With an open checkout of your Fossil repository:
 
     $ cd /path/to/open/fossil/checkout
     $ fossgit /path/to/git/repository
-
-If you do not have an open checkout for your Fossil repository:
-
-    $ fossgit -R /path/to/fossil/repository/file /path/to/git/repsitory
 
 ## Dependencies
 
@@ -29,7 +25,7 @@ If you do not have an open checkout for your Fossil repository:
 * Git
 * a Fossil repository to mirror
 * a Git repository you will use as your mirror
-* optional: an open checkout of the Fossil repository
+* an open checkout of the Fossil repository
 
 ## Bug Reports And Feature Requests
 
