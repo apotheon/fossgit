@@ -8,9 +8,10 @@ repositories as (one-way) mirrors of Fossil repositories.
 Clone it from the [Fossil repository](https://fossrec.com/u/apotheon/fossgit/)
 or the [GitHub mirror](https://github.com/apotheon/fossgit/).
 
-Copy the `fossgit` file to a directory in your execution path, add its location
-in this repository to your execution path, or execute it by entering the path
-to the `fossgit` file.
+Copy the `fossgit` file to a directory in your execution path, create a symlink
+or hardlink to the repository's `fossgit` file in a directory in your execution
+path, add its location in this repository to your execution path, or execute it
+by entering the path to the `fossgit` file.
 
 ## Usage
 
