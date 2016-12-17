@@ -11,7 +11,7 @@ or the [GitHub mirror](https://github.com/apotheon/fossgit/).
 Copy the `fossgit` file to a directory in your execution path, create a symlink
 or hardlink to the repository's `fossgit` file in a directory in your execution
 path, add its location in this repository to your execution path, or execute it
-by entering the path to the `fossgit` file.
+by entering the explicit path to the `fossgit` file at a shell prompt.
 
 ## Usage
 
