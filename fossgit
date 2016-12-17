@@ -1,5 +1,46 @@
 #!/usr/bin/env ruby
 
+def full_command
+  @full_command = [
+    fossil_command.join(' '), git_command.join(' ')
+  ].join('|') << github_command
+end
+
+def fossil_command
+  cmd = ['fossil export --git']
+
+  cmd << "--import-marks #{fossil_marks}" if all_marks?
+  cmd << "--export-marks #{fossil_marks}"
+  cmd << get_repository
+end
+
+def git_command
+  cmd = ['git fast-import']
+
+  cmd << "--import-marks=#{git_marks}" if all_marks?
+  cmd << "--export-marks=#{git_marks}"
+end
+
+def github_command
+  '; git checkout trunk; git push'
+end
+
+def all_marks?
+  @all_marks ||= File.exist? git_marks and File.exist? fossil_marks
+end
+
+def fossil_marks
+  @fossil_marks ||= File.join fossil_path, 'fossil.marks'
+end
+
+def git_marks
+  @git_marks ||= File.join fossil_path, 'git.marks'
+end
+
+def fossil_path
+  @fossil_path ||= (get_option('-c') or Dir.pwd)
+end
+
 def get_option opt, default=nil
   ARGV.index(opt).tap do |val|
     return val ? (ARGV.delete_at val and ARGV.delete_at val) : default
@@ -14,7 +55,7 @@ def get_repository
   )
 end
 
-@name = File.basename $0
+name = File.basename $0
 
 help = <<-EOF
 
@@ -25,8 +66,8 @@ help = <<-EOF
   2. a Fossil repository to mirror with an open checkout
   3. a Git repository to use as a mirror
 
-  USAGE:  #{@name} -h
-          #{@name} [-c <CHECKOUT>] <GITREPO>
+  USAGE:  #{name} -h
+          #{name} [-c <CHECKOUT>] <GITREPO>
 
   OPTIONS/ARGUMENTS:
 
@@ -50,44 +91,28 @@ help = <<-EOF
 
 EOF
 
-if ARGV.first == '-h'
-  puts help
-  exit
-end
+if $0 == __FILE__
+  if ARGV.include? '-h'
+    puts help
+    exit
+  end
 
-@fossil_path = (get_option('-c') or Dir.pwd)
-@fossil_marks = File.join @fossil_path, 'fossil.marks'
+  exit if full_command.to_s.empty?
 
-@git_path = ARGV.shift
-@git_marks = File.join @fossil_path, 'git.marks'
+  git_path = ARGV.shift
 
-if @git_path.to_s.empty?
-  puts 'Error!  No Git path provided.'
-  exit!
-end
+  if git_path.to_s.empty?
+    puts 'Error!  No Git path provided.'
+    exit!
+  end
 
-fossil_command = ['fossil export --git']
-git_command = ['git fast-import']
+  Dir.chdir git_path
 
-if File.exist? @git_marks and File.exist? @fossil_marks
-  fossil_command << "--import-marks #{@fossil_marks}"
-  git_command << "--import-marks=#{@git_marks}"
-end
+  unless system 'git status'
+    print 'Error!  This path is not a Git repository:'
+    puts Dir.pwd
+    exit!
+  end
 
-fossil_command << "--export-marks #{@fossil_marks}"
-fossil_command << get_repository
-
-git_command << "--export-marks=#{@git_marks}"
-git_command.last << '; git checkout trunk; git push'
-
-full_command = [fossil_command.join(' '), git_command.join(' ')].join '|'
-
-Dir.chdir @git_path
-
-if system 'git status'
   system full_command
-else
-  print 'Error!  This path is not a Git repository:'
-  puts Dir.pwd
-  exit!
 end
