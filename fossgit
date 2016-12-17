@@ -78,6 +78,7 @@ fossil_command << "--export-marks #{@fossil_marks}"
 fossil_command << get_repository
 
 git_command << "--export-marks=#{@git_marks}"
+git_command.last << '; git checkout trunk; git push'
 
 full_command = [fossil_command.join(' '), git_command.join(' ')].join '|'
 
