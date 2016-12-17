@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 
-def full_command
-  @full_command = [
-    fossil_command.join(' '), git_command.join(' ')
-  ].join('|') << github_command
+def get_full_command
+  [fossil_command.join(' '), git_command.join(' ')].join('|') << github_command
 end
 
 def fossil_command
@@ -26,19 +24,19 @@ def github_command
 end
 
 def all_marks?
-  @all_marks ||= File.exist? git_marks and File.exist? fossil_marks
+  (File.exist? git_marks and File.exist? fossil_marks)
 end
 
 def fossil_marks
-  @fossil_marks ||= File.join fossil_path, 'fossil.marks'
+  File.join(fossil_path, 'fossil.marks')
 end
 
 def git_marks
-  @git_marks ||= File.join fossil_path, 'git.marks'
+  File.join(fossil_path, 'git.marks')
 end
 
 def fossil_path
-  @fossil_path ||= (get_option('-c') or Dir.pwd)
+  (get_option('-c') or Dir.pwd)
 end
 
 def get_option opt, default=nil
@@ -97,7 +95,7 @@ if $0 == __FILE__
     exit
   end
 
-  exit if full_command.to_s.empty?
+  full_command = get_full_command
 
   git_path = ARGV.shift
 
