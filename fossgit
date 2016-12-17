@@ -75,7 +75,7 @@ if File.exist? @git_marks and File.exist? @fossil_marks
 end
 
 fossil_command << "--export-marks #{@fossil_marks}"
-fossil_command << "-R #{get_repository}"
+fossil_command << @fossil_path
 
 git_command << "--export-marks=#{@git_marks}"
 
