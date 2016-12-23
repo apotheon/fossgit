@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
-def get_full_command
-  [fossil_command.join(' '), git_command.join(' ')].join('|') << github_command
+@fossil_repository = nil
+
+def mirror_command
+  [fossil_command, git_command].join '|'
 end
 
 def fossil_command
@@ -9,7 +11,9 @@ def fossil_command
 
   cmd << "--import-marks #{fossil_marks}" if all_marks?
   cmd << "--export-marks #{fossil_marks}"
-  cmd << get_repository
+  cmd << fossil_repository
+
+  cmd.join ' '
 end
 
 def git_command
@@ -17,6 +21,8 @@ def git_command
 
   cmd << "--import-marks=#{git_marks}" if all_marks?
   cmd << "--export-marks=#{git_marks}"
+
+  cmd.join ' '
 end
 
 def github_command
@@ -45,11 +51,13 @@ def get_option opt, default=nil
   end
 end
 
-def get_repository
-  File.absolute_path(
+def fossil_repository
+  idregex = /^repository: +/
+
+  @fossil_repository ||= File.absolute_path(
     `fossil status`.split(/\n/).select do |line|
-      line.match /^repository: +/
-    end.first.sub /^repository: +/, ''
+      line.match idregex
+    end.first.sub idregex, ''
   )
 end
 
@@ -93,24 +101,27 @@ if $0 == __FILE__
   if ARGV.include? '-h'
     puts help
     exit
+  elsif ARGV.include? '-x'
+    # puts fossil_command
+    exit
+  else
+    command_line = mirror_command + github_command
+
+    git_path = ARGV.shift
+
+    if git_path.to_s.empty?
+      puts 'Error!  No Git path provided.'
+      exit!
+    end
+
+    Dir.chdir git_path
+
+    unless system 'git status'
+      print 'Error!  This path is not a Git repository:'
+      puts Dir.pwd
+      exit!
+    end
+
+    system command_line
   end
-
-  full_command = get_full_command
-
-  git_path = ARGV.shift
-
-  if git_path.to_s.empty?
-    puts 'Error!  No Git path provided.'
-    exit!
-  end
-
-  Dir.chdir git_path
-
-  unless system 'git status'
-    print 'Error!  This path is not a Git repository:'
-    puts Dir.pwd
-    exit!
-  end
-
-  system full_command
 end
