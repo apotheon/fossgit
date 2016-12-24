@@ -3,7 +3,11 @@
 @fossil_repository = nil
 
 def mirror_command
-  [fossil_command, git_command].join '|'
+  [fossil_command, sed_command, git_command].join '|'
+end
+
+def sed_command
+  "sed 's/^(committer +)([^ ]+@[^ ]+)( *<)(\w+)(>.*)$/\1\4\3\2\5/'"
 end
 
 def fossil_command
