@@ -16,6 +16,18 @@ def fossil_command
   cmd.join ' '
 end
 
+def corrected_fossil_export
+  committer_mail_name_plus = /^(committer\s+)(\S+@\S+)(\s*<)(\w+)(>.*)$/
+
+  `#{fossil_command}`.split("\n").collect do |line|
+    if line.match committer_mail_name_plus
+      "#{$1}#{$4}#{$3}#{$2}#{$5}"
+    else
+      line
+    end
+  end
+end
+
 def git_command
   cmd = ['git fast-import']
 
@@ -102,7 +114,7 @@ if $0 == __FILE__
     puts help
     exit
   elsif ARGV.include? '-x'
-    # puts fossil_command
+    puts corrected_fossil_export
     exit
   else
     command_line = mirror_command + github_command
