@@ -7,7 +7,7 @@ def mirror_command
 end
 
 def sed_command
-  "sed 's/^(committer +)([^ ]+@[^ ]+)( *<)(\w+)(>.*)$/\1\4\3\2\5/'"
+  "sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'"
 end
 
 def fossil_command
@@ -42,7 +42,7 @@ def git_command
 end
 
 def github_command
-  '; git checkout trunk; git push'
+  '; git checkout trunk; git push origin trunk'
 end
 
 def all_marks?
@@ -118,7 +118,7 @@ if $0 == __FILE__
     puts help
     exit
   elsif ARGV.include? '-x'
-    puts corrected_fossil_export
+    puts `#{fossil_command}|#{sed_command}`
     exit
   else
     command_line = mirror_command + github_command
