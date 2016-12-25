@@ -59,6 +59,10 @@ def get_option opt, default=nil
   end
 end
 
+def option_switch? long_name
+  ARGV.delete "-#{long_name[0]}" or ARGV.delete "--#{long_name}"
+end
+
 def fossil_repository
   idregex = /^repository: +/
 
@@ -82,7 +86,7 @@ help = <<-EOF
 
   USAGE:  #{name} -h
           #{name} [-c <CHECKOUT>] [-l] <GITREPO>
-          #{name} -x
+          #{name} -t
 
       By default, when exporting to local Git repository GITREPO, #{name}
       attempts to push updates to a configured upstream Git repository.  It
@@ -104,7 +108,7 @@ help = <<-EOF
                       #{name} tries to push to an upstream Git repository
                       whenever it exports from Fossil to Git.
 
-      -x              Dump export to STDOUT rather than sending it to Git.
+      -t              Dump export to STDOUT rather than sending it to Git.
                       This overrides the `-l` option and GITREPO argument, if
                       present.
 
@@ -121,30 +125,34 @@ help = <<-EOF
 EOF
 
 if $0 == __FILE__
-  if ARGV.delete '-h'
+  if option_switch? 'help'
     puts help
     exit
-  elsif ARGV.delete '-x'
+  elsif option_switch? 'version'
+    puts 'fossgit 1.0.0'
+  elsif option_switch? 'text-export'
     puts `#{fossil_command}|#{sed_command}`
     exit
   else
     command_line = mirror_command
-    command_line << push_command unless ARGV.delete '-l'
+    command_line << push_command unless option_switch? 'local'
 
     git_path = ARGV.shift
 
     if git_path.to_s.empty?
-      puts 'Error!  No Git path provided.'
+      STDERR.puts 'Error!  No Git path provided.'
       exit!
-    else
+    elsif Dir.exist? git_path
       Dir.chdir git_path
+    else
+      STDERR.puts %Q{Error!  Invalid Git path "#{git_path}" provided.}
+      exit!
     end
 
     if system 'git status'
       system command_line
     else
-      print 'Error!  This path is not a Git repository:'
-      puts Dir.pwd
+      STDERR.print %Q{Error!  Invalid Git repository "#{Dir.pwd}" provided.}
       exit!
     end
   end
