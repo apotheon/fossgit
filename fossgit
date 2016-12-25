@@ -41,7 +41,7 @@ def git_command
   cmd.join ' '
 end
 
-def github_command
+def push_command
   '; git checkout trunk; git push origin trunk'
 end
 
