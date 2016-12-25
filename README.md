@@ -41,3 +41,17 @@ In order from most preferred to least preferred:
 * Add tests, maybe.
 * Add automatic GitHub publishing, maybe.
 * Incorporate this functionality into FossRec, a more comprehensive tool.
+
+## Development
+
+The discerning programmer may look over FossGit in its current form and realize
+it is neither object-oriented nor functional in its design.  It is, in fact, a
+pretty straightforward procedural program, written in Ruby (an odd language to
+use for procedural programming, perhaps).  The reason for this is simple: it is
+in essence a glorified shell script.  There are plans to make it part of a
+larger set of libraries and utilities (see the Roadmap), and it will need to
+undergo a fair bit of redesign as part of that; I expect it to be largely
+unrecognizable by then.
+
+Much of this work was done on Christmas weekend 2016.  That may or may not be
+significant.
