@@ -29,6 +29,8 @@ Gem::Specification.new do |s|
     * sed (standard on Unix-like systems)
 
     Run "fossgit -h" for usage information.
+
+    Version 1.0.0 of FossGit is dedicated to my wife.  Happy holidays.
   EOF
 
   s.required_ruby_version = '>= 1.9.3'
