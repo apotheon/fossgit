@@ -13,7 +13,7 @@ end
 def fossil_command
   cmd = ['fossil export --git']
 
-  cmd << "--import-marks #{fossil_marks}" if all_marks?
+  cmd << "--import-marks #{fossil_marks}" if update_export?
   cmd << "--export-marks #{fossil_marks}"
   cmd << fossil_repository
 
@@ -35,7 +35,7 @@ end
 def git_command
   cmd = ['git fast-import']
 
-  cmd << "--import-marks=#{git_marks}" if all_marks?
+  cmd << "--import-marks=#{git_marks}" if update_export?
   cmd << "--export-marks=#{git_marks}"
 
   cmd.join ' '
@@ -45,16 +45,20 @@ def github_command
   '; git checkout trunk; git push origin trunk'
 end
 
-def all_marks?
+def update_export?
   File.exist? git_marks and File.exist? fossil_marks
 end
 
 def fossil_marks
-  File.join fossil_path, 'fossil.marks'
+  fossil_file 'fossil.marks'
 end
 
 def git_marks
-  File.join fossil_path, 'git.marks'
+  fossil_file 'git.marks'
+end
+
+def fossil_file filename
+  File.join fossil_path, filename
 end
 
 def fossil_path
@@ -89,7 +93,13 @@ help = <<-EOF
   3. a Git repository to use as a mirror
 
   USAGE:  #{name} -h
-          #{name} [-c <CHECKOUT>] <GITREPO>
+          #{name} [-c <CHECKOUT>] [-l] <GITREPO>
+          #{name} -x
+
+      By default, when exporting to local Git repository GITREPO, #{name}
+      attempts to push updates to a configured upstream Git repository.  It
+      harmlessly fails to push if no upstream repository is configured for the
+      local Git repository.
 
   OPTIONS/ARGUMENTS:
 
@@ -101,7 +111,16 @@ help = <<-EOF
                       this tool from within an open checkout of your Fossil
                       repository instead.
 
-      GITREPO         Specify the location of your Git repository, GITREPO.
+      -l              Perform local-only mirror operations, without trying to
+                      push Git updates to a remote repository.  By default,
+                      #{name} tries to push to an upstream Git repository
+                      whenever it exports from Fossil to Git.
+
+      -x              Dump export to STDOUT rather than sending it to Git.
+                      This overrides the `-l` option and GITREPO argument, if
+                      present.
+
+      GITREPO         Specify the location of your local Git repository.
 
   EXAMPLES:
 
@@ -121,23 +140,24 @@ if $0 == __FILE__
     puts `#{fossil_command}|#{sed_command}`
     exit
   else
-    command_line = mirror_command + github_command
+    command_line = mirror_command
+    command_line << push_command unless ARGV.delete '-l'
 
     git_path = ARGV.shift
 
     if git_path.to_s.empty?
       puts 'Error!  No Git path provided.'
       exit!
+    else
+      Dir.chdir git_path
     end
 
-    Dir.chdir git_path
-
-    unless system 'git status'
+    if system 'git status'
+      system command_line
+    else
       print 'Error!  This path is not a Git repository:'
       puts Dir.pwd
       exit!
     end
-
-    system command_line
   end
 end
