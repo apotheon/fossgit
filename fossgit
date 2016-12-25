@@ -46,19 +46,19 @@ def github_command
 end
 
 def all_marks?
-  (File.exist? git_marks and File.exist? fossil_marks)
+  File.exist? git_marks and File.exist? fossil_marks
 end
 
 def fossil_marks
-  File.join(fossil_path, 'fossil.marks')
+  File.join fossil_path, 'fossil.marks'
 end
 
 def git_marks
-  File.join(fossil_path, 'git.marks')
+  File.join fossil_path, 'git.marks'
 end
 
 def fossil_path
-  (get_option('-c') or Dir.pwd)
+  get_option '-c' or Dir.pwd
 end
 
 def get_option opt, default=nil
