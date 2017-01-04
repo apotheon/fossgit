@@ -5,6 +5,13 @@ repositories as (one-way) mirrors of Fossil repositories.
 
 ## Installation
 
+Install from Ruby gems:
+
+    $ gem install fossgit
+
+If, for some reason, that is not an available option for you or you wish to do
+things the hard way, there is another option:
+
 Clone it from the [Fossil repository](https://fossrec.com/u/apotheon/fossgit/)
 or the [GitHub mirror](https://github.com/apotheon/fossgit/).
 
