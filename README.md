@@ -5,20 +5,20 @@ repositories as (one-way) mirrors of Fossil repositories.
 
 ## Installation
 
-Install the [Ruby Gem](https://rubygems.org/gems/fossgit):
+Install the [Ruby Gem][gem]:
 
     $ gem install fossgit
 
 If, for some reason, that is not an available option for you or you wish to do
-things the hard way, there is another option:
+things the hard way, there is another installation method:
 
-Clone it from the [Fossil repository](https://fossrec.com/u/apotheon/fossgit/)
-or the [GitHub mirror](https://github.com/apotheon/fossgit/).
+1. Clone it from the [Fossil repository][frepo] or the [GitHub mirror][grepo].
 
-Copy the `fossgit` file to a directory in your execution path, create a symlink
-or hardlink to the repository's `fossgit` file in a directory in your execution
-path, add its location in this repository to your execution path, or execute it
-by entering the explicit path to the `fossgit` file at a shell prompt.
+2. Copy the `fossgit` file to a directory in your execution path, create a
+   symlink or hardlink to the repository's `fossgit` file in a directory in
+   your execution path, add its location in this repository to your execution
+   path, or execute it by entering the explicit path to the `fossgit` file at a
+   shell prompt.
 
 ## Usage
 
@@ -60,3 +60,7 @@ unrecognizable by then.
 
 Much of this work was done on Christmas weekend 2016.  That may or may not be
 significant.
+
+[gem]: https://rubygems.org/gems/fossgit
+[frepo]: https://fossrec.com/u/apotheon/fossgit
+[grepo]: https://github.com/apotheon/fossgit
