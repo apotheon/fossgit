@@ -1,11 +1,11 @@
 # fossgit
 
-This is a simple command line utility for creating and updating Git
+FossGit provides a simple command line utility for creating and updating Git
 repositories as (one-way) mirrors of Fossil repositories.
 
 ## Installation
 
-Install from Ruby gems:
+Install the [Ruby Gem](https://rubygems.org/gems/fossgit):
 
     $ gem install fossgit
 
