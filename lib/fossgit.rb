@@ -1,6 +1,16 @@
 class FossGit
+  attr_reader :checkout_path
+  attr_reader :fossil_repository
+
+  def initialize checkout_path=''
+    @checkout_path = checkout_path
+    @checkout_path = get_element_matching :'local-root'
+
+    @fossil_repository = get_repository_path
+  end
+
   def self.version
-    '1.0.1'
+    '1.0.2'
   end
 
   def self.help_text name='fossgit'
@@ -52,5 +62,26 @@ class FossGit
           $ cd ~/fossil_checkouts/projectname && fossgit ~/git/projectname
 
     EOF
+  end
+
+  private
+
+  def get_repository_path
+    File.absolute_path get_element_matching :repository
+  end
+
+  def get_element_matching key
+    key_regex = /^#{key}: +/
+    fossil_status.select {|line| line.match key_regex }.first.sub key_regex, ''
+  end
+
+  def fossil_status
+    Dir.chdir checkout_path
+
+    if system 'fossil status'
+      `fossil status`.split(/\n/)
+    else
+      raise ArgumentError, "#{checkout_path} is not a valid checkout path"
+    end
   end
 end

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'fossgit'
 
-@fossil_repository = nil
+@fg = FossGit.new Dir.pwd
 
 def mirror_command
   [fossil_command, sed_command, git_command].join '|'
@@ -16,7 +16,7 @@ def fossil_command
 
   cmd << "--import-marks #{fossil_marks}" if update_export?
   cmd << "--export-marks #{fossil_marks}"
-  cmd << fossil_repository
+  cmd << @fg.fossil_repository
 
   cmd.join ' '
 end
@@ -62,16 +62,6 @@ end
 
 def option_switch? long_name
   ARGV.delete "-#{long_name[0]}" or ARGV.delete "--#{long_name}"
-end
-
-def fossil_repository
-  idregex = /^repository: +/
-
-  @fossil_repository ||= File.absolute_path(
-    `fossil status`.split(/\n/).select do |line|
-      line.match idregex
-    end.first.sub idregex, ''
-  )
 end
 
 name = File.basename $0
