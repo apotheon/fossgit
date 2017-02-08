@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name        = 'fossgit'
   s.version     = FossGit.version
   s.authors     = ['Chad Perrin']
-  s.date        = '2016-12-25'
+  s.date        = '2017-02-07'
   s.description = <<-EOF
     Maintain a presence in Git hosting for Fossil projects.
   EOF
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
 
     Run "fossgit -h" for usage information.
 
-    Version 1.0.0 of FossGit is dedicated to my wife.  Happy holidays.
+    Version 1.0.1 of FossGit starts the process of extracting a library.
   EOF
 
   s.required_ruby_version = '>= 1.9.3'
