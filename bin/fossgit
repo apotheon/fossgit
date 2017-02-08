@@ -76,10 +76,8 @@ end
 
 name = File.basename $0
 
-fg = FossGit.new
-
 if option_switch? 'help'
-  puts fg.help_text name
+  puts FossGit.help_text name
   exit
 elsif option_switch? 'version'
   puts [name, FossGit.version].join ' '

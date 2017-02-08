@@ -5,19 +5,17 @@ require 'minitest/rg'
 require_relative '../lib/fossgit.rb'
 
 describe FossGit do
-  FossGit.new.tap do |fg|
-    name = 'fossgit'
+  name = 'fossgit'
 
-    it 'returns help text with default name' do
-      fg.help_text.must_match /USAGE:  #{name} -h/
-      fg.help_text.must_match /-c CHECKOUT     Specify the location of/
-      fg.help_text.must_match /#{name} tries to push to an upstream Git/
-      fg.help_text.must_match /\s+EXAMPLES:/
-    end
+  it 'returns help text with default name' do
+    FossGit.help_text.must_match /USAGE:  #{name} -h/
+    FossGit.help_text.must_match /-c CHECKOUT     Specify the location of/
+    FossGit.help_text.must_match /#{name} tries to push to an upstream Git/
+    FossGit.help_text.must_match /\s+EXAMPLES:/
+  end
 
-    it 'returns help text with custom name' do
-      name = 'not-fossgit'
-      fg.help_text(name).must_match /USAGE:  #{name} -h/
-    end
+  it 'returns help text with custom name' do
+    name = 'not-fossgit'
+    FossGit.help_text(name).must_match /USAGE:  #{name} -h/
   end
 end
