@@ -82,6 +82,10 @@ class FossGit
     cmd.join ' '
   end
 
+  def update_export?
+    File.exist? git_marks and File.exist? fossil_marks
+  end
+
   private
 
   def get_repository_path
@@ -101,9 +105,5 @@ class FossGit
     else
       raise ArgumentError, "#{checkout_path} is not a valid checkout path"
     end
-  end
-
-  def update_export?
-    File.exist? git_marks and File.exist? fossil_marks
   end
 end

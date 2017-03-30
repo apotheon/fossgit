@@ -1,6 +1,16 @@
 #!/usr/bin/env ruby
 require 'fossgit'
 
+def get_option opt, default=nil
+  ARGV.index(opt).tap do |val|
+    return val ? (ARGV.delete_at val and ARGV.delete_at val) : default
+  end
+end
+
+def option_switch? long_name
+  ARGV.delete "-#{long_name[0]}" or ARGV.delete "--#{long_name}"
+end
+
 @fg = FossGit.new (get_option '-c' or Dir.pwd)
 
 def mirror_command
@@ -57,16 +67,6 @@ def fossil_path
   get_option '-c' or Dir.pwd
 end
 =end
-
-def get_option opt, default=nil
-  ARGV.index(opt).tap do |val|
-    return val ? (ARGV.delete_at val and ARGV.delete_at val) : default
-  end
-end
-
-def option_switch? long_name
-  ARGV.delete "-#{long_name[0]}" or ARGV.delete "--#{long_name}"
-end
 
 name = File.basename $0
 
