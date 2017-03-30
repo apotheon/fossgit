@@ -21,18 +21,6 @@ def sed_command
   %q{sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'}
 end
 
-=begin
-def fossil_command
-  cmd = ['fossil export --git']
-
-  cmd << "--import-marks #{@fg.fossil_marks}" if update_export?
-  cmd << "--export-marks #{@fg.fossil_marks}"
-  cmd << @fg.fossil_repository
-
-  cmd.join ' '
-end
-=end
-
 def git_command
   cmd = ['git fast-import']
 
@@ -45,28 +33,6 @@ end
 def push_command
   '; git checkout trunk; git push origin trunk'
 end
-
-=begin
-def update_export?
-  File.exist? @fg.git_marks and File.exist? @fg.fossil_marks
-end
-
-def fossil_marks
-  fossil_file 'fossil.marks'
-end
-
-def git_marks
-  fossil_file 'git.marks'
-end
-
-def fossil_file filename
-  File.join fossil_path, filename
-end
-
-def fossil_path
-  get_option '-c' or Dir.pwd
-end
-=end
 
 name = File.basename $0
 
