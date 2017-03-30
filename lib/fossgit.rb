@@ -72,6 +72,16 @@ class FossGit
     File.join checkout_path, 'git.marks'
   end
 
+  def fossil_command
+    cmd = ['fossil export --git']
+
+    cmd << "--import-marks #{fossil_marks}" if update_export?
+    cmd << "--export-marks #{fossil_marks}"
+    cmd << fossil_repository
+
+    cmd.join ' '
+  end
+
   private
 
   def get_repository_path
@@ -91,5 +101,9 @@ class FossGit
     else
       raise ArgumentError, "#{checkout_path} is not a valid checkout path"
     end
+  end
+
+  def update_export?
+    File.exist? git_marks and File.exist? fossil_marks
   end
 end

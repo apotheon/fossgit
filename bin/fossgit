@@ -4,13 +4,14 @@ require 'fossgit'
 @fg = FossGit.new (get_option '-c' or Dir.pwd)
 
 def mirror_command
-  [fossil_command, sed_command, git_command].join '|'
+  [@fg.fossil_command, sed_command, git_command].join '|'
 end
 
 def sed_command
   %q{sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'}
 end
 
+=begin
 def fossil_command
   cmd = ['fossil export --git']
 
@@ -20,11 +21,12 @@ def fossil_command
 
   cmd.join ' '
 end
+=end
 
 def git_command
   cmd = ['git fast-import']
 
-  cmd << "--import-marks=#{@fg.git_marks}" if update_export?
+  cmd << "--import-marks=#{@fg.git_marks}" if @fg.update_export?
   cmd << "--export-marks=#{@fg.git_marks}"
 
   cmd.join ' '
@@ -34,11 +36,11 @@ def push_command
   '; git checkout trunk; git push origin trunk'
 end
 
+=begin
 def update_export?
   File.exist? @fg.git_marks and File.exist? @fg.fossil_marks
 end
 
-=begin
 def fossil_marks
   fossil_file 'fossil.marks'
 end
@@ -74,7 +76,7 @@ if option_switch? 'help'
 elsif option_switch? 'version'
   puts [name, FossGit.version].join ' '
 elsif option_switch? 'text-export'
-  puts `#{fossil_command}|#{sed_command}`
+  puts `#{@fg.fossil_command}|#{sed_command}`
   exit
 else
   command_line = mirror_command
