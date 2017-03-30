@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'fossgit'
 
-@fg = FossGit.new Dir.pwd
+@fg = FossGit.new (get_option '-c' or Dir.pwd)
 
 def mirror_command
   [fossil_command, sed_command, git_command].join '|'
@@ -14,8 +14,8 @@ end
 def fossil_command
   cmd = ['fossil export --git']
 
-  cmd << "--import-marks #{fossil_marks}" if update_export?
-  cmd << "--export-marks #{fossil_marks}"
+  cmd << "--import-marks #{@fg.fossil_marks}" if update_export?
+  cmd << "--export-marks #{@fg.fossil_marks}"
   cmd << @fg.fossil_repository
 
   cmd.join ' '
@@ -24,8 +24,8 @@ end
 def git_command
   cmd = ['git fast-import']
 
-  cmd << "--import-marks=#{git_marks}" if update_export?
-  cmd << "--export-marks=#{git_marks}"
+  cmd << "--import-marks=#{@fg.git_marks}" if update_export?
+  cmd << "--export-marks=#{@fg.git_marks}"
 
   cmd.join ' '
 end
@@ -35,9 +35,10 @@ def push_command
 end
 
 def update_export?
-  File.exist? git_marks and File.exist? fossil_marks
+  File.exist? @fg.git_marks and File.exist? @fg.fossil_marks
 end
 
+=begin
 def fossil_marks
   fossil_file 'fossil.marks'
 end
@@ -53,6 +54,7 @@ end
 def fossil_path
   get_option '-c' or Dir.pwd
 end
+=end
 
 def get_option opt, default=nil
   ARGV.index(opt).tap do |val|

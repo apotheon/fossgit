@@ -12,9 +12,17 @@ describe FossGit do
       line.match(/^repository: +/)
     end.first.sub /repository: +/, ''
 
+    fossil_marks_path = File.join checkout_path, 'fossil.marks'
+    git_marks_path = File.join checkout_path, 'git.marks'
+
     FossGit.new(checkout_path).tap do |fg|
       it 'uses the specified Fossil repository' do
         fg.fossil_repository.must_equal File.absolute_path repo_path
+      end
+
+      it 'stores mirror marks in the Fossil checkout' do
+        fg.fossil_marks.must_equal fossil_marks_path
+        fg.git_marks.must_equal git_marks_path
       end
     end
   end

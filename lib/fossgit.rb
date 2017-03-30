@@ -64,6 +64,14 @@ class FossGit
     EOF
   end
 
+  def fossil_marks
+    File.join checkout_path, 'fossil.marks'
+  end
+
+  def git_marks
+    File.join checkout_path, 'git.marks'
+  end
+
   private
 
   def get_repository_path
