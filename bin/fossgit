@@ -36,6 +36,21 @@ end
 
 name = File.basename $0
 
+config_file = '.fossgit'
+home_config = File.join(ENV['HOME'], config_file)
+
+@config = Hash.new
+
+if File.exist? home_config
+  @config = YAML.load_file home_config
+end
+
+if File.exist? config_file
+  YAML.load_file(config_file).tap do |local|
+    local.each_key {|k| @config[k] = local[k] }
+  end
+end
+
 if option_switch? 'help'
   puts FossGit.help_text name
   exit
@@ -48,15 +63,15 @@ else
   command_line = mirror_command
   command_line << push_command unless option_switch? 'local'
 
-  git_path = ARGV.shift
+  gitpath = ARGV.shift or @config['gitpath']
 
-  if git_path.to_s.empty?
+  if gitpath.to_s.empty?
     STDERR.puts 'Error!  No Git path provided.'
     exit!
-  elsif Dir.exist? git_path
-    Dir.chdir git_path
+  elsif Dir.exist? gitpath
+    Dir.chdir gitpath
   else
-    STDERR.puts %Q{Error!  Invalid Git path "#{git_path}" provided.}
+    STDERR.puts %Q{Error!  Invalid Git path "#{gitpath}" provided.}
     exit!
   end
 
