@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'fossgit'
+require 'yaml'
 
 def get_option opt, default=nil
   ARGV.index(opt).tap do |val|
