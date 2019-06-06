@@ -10,7 +10,7 @@ class FossGit
   end
 
   def self.version
-    '1.1.2'
+    '1.1.0'
   end
 
   def self.help_text name='fossgit'
