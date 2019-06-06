@@ -27,6 +27,14 @@ With an open checkout of your Fossil repository:
     $ cd /path/to/open/fossil/checkout
     $ fossgit /path/to/git/repository
 
+By placing a config file in the directory that will serve as your working
+directory while running `fossgit` (typically the root of your Fossil repository
+checkout directory tree), you can do away with the need to specify the path to
+the local Git mirror.  Simply create a file there called `.fossgit` containing
+the following:
+
+    gitpath: /path/to/git/repository
+
 ## Dependencies
 
 * Fossil SCM
