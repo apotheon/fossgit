@@ -64,7 +64,7 @@ else
   command_line = mirror_command
   command_line << push_command unless option_switch? 'local'
 
-  gitpath = ARGV.shift or @config['gitpath']
+  gitpath = (ARGV.shift or @config['gitpath'])
 
   if gitpath.to_s.empty?
     STDERR.puts 'Error!  No Git path provided.'
