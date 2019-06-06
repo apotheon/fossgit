@@ -30,10 +30,31 @@ With an open checkout of your Fossil repository:
 By placing a config file in the directory that will serve as your working
 directory while running `fossgit` (typically the root of your Fossil repository
 checkout directory tree), you can do away with the need to specify the path to
-the local Git mirror.  Simply create a file there called `.fossgit` containing
-the following:
+the local Git repository mirror.  Simply create a file there called `.fossgit`
+containing the following:
 
-    gitpath: /path/to/git/repository
+    gitrepo: /path/to/gitdir/reponame
+
+You can then run the command without arguments:
+
+    $ cd /path/to/open/fossil/checkout
+    $ fossgit
+
+You can also place a `.fossgit` config file in your home directory, in which
+case you may wish to specify the path to a directory in which you keep all your
+Git repository mirrors and let `fossgit` infer your repository name from the
+project-name setting in your Fossil repository:
+
+    gitpath: /path/to/gitdir
+
+Once again, this allows you to run the command without arguments:
+
+If you do both, the most-specific option (gitrepo) will be chosen as the target
+Git repository, which is probably a good idea if you have not configure the
+Fossil repository's project-name setting or if you want to default to updating
+a mirror with a different name than the Fossil project-name.  Specifying a
+repository path at the command line will cause `fossgit` to ignore both, and
+just use the command line argument as the target Git repository path.
 
 ## Dependencies
 
@@ -54,6 +75,8 @@ In order from most preferred to least preferred:
 
 * Add tests, maybe.
 * Incorporate this functionality into FossRec, a more comprehensive tool.
+* Test with GitLab.  FossGit has only been tested with GitHub so far.
+* Add support for updating multiple mirrors by default.
 
 ## Development
 
