@@ -13,7 +13,8 @@ Gem::Specification.new do |s|
   s.files       = [
     'LICENSE',
     'README.md',
-    'lib/fossgit.rb'
+    'lib/fossgit.rb',
+    'lib/fossgit/cli.rb'
   ]
   s.homepage    = 'https://fossrec.com/u/apotheon/fossgit'
   s.license     = 'COIL'

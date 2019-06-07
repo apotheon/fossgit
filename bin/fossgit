@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'fossgit'
+require 'fossgit/cli'
 require 'yaml'
 
 def project
@@ -61,7 +62,7 @@ if @config['gitdir'] and not @config['gitrepo']
 end
 
 if option_switch? 'help'
-  puts FossGit.help_text name
+  puts CLI.help_text name
   exit
 elsif option_switch? 'version'
   puts [name, FossGit.version].join ' '
