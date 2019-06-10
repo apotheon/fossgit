@@ -15,7 +15,9 @@ class CLI
           By default, when exporting to local Git repository GITREPO, #{name}
           attempts to push updates to a configured upstream Git repository.  It
           should harmlessly fail to push if there is no upstream repository
-          configured for the local Git repository.
+          configured for the local Git repository.  If there is no GITREPO in
+          configuration (see CONFIG below), you must specify GITREPO when using
+          #{name} to mirror your Fossil repository.
 
       OPTIONS/ARGUMENTS:
 
