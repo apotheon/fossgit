@@ -35,8 +35,12 @@ class FossGit
     File.exist? git_marks and File.exist? fossil_marks
   end
 
-  def git_remotes
-    `git remote`.split "\n"
+  def git_remotes gitpath
+    origin_path = Dir.pwd
+    Dir.chdir gitpath
+    remotes = `git remote`.split "\n"
+    Dir.chdir origin_path
+    return remotes
   end
 
   private
