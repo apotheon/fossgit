@@ -35,6 +35,10 @@ class FossGit
     File.exist? git_marks and File.exist? fossil_marks
   end
 
+  def git_remotes
+    `git remote`.split "\n"
+  end
+
   private
 
   def get_repository_path
