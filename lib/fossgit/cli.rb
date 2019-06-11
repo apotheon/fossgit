@@ -42,6 +42,8 @@ class CLI
                           to Git.  This overrides the `-l` option and GITREPO
                           argument, if present.
 
+          -v              Show FossGit version number.
+
           GITREPO         Specify the location of your local Git repository.
                           This is optional, if there is a configuration file
                           that specifies it for you.
