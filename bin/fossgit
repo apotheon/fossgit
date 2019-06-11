@@ -70,6 +70,12 @@ elsif option_switch? 'text-export'
   puts `#{@fg.fossil_command}|#{sed_command}`
   exit
 else
+  # Rewrite the following so it first checks whether there is a configured
+  # upstream, then pushes to it if it exists.  Later, alter it so it checks for
+  # more than just the default upstream, and pushes to all of them.  Also add a
+  # configuration option that allows for control oveer whether and how it
+  # auto-pushes.
+
   command_line = mirror_command
   command_line << push_command unless option_switch? 'local'
 
