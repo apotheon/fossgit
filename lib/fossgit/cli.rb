@@ -24,6 +24,10 @@ class CLI
           -h              Display this help text and exit, ignoring all other
                           arguments.
 
+          -a              Push to all configured remotes for the target Git
+                          repository.  Default behavior is to push only to the
+                          configured "origin" remote.
+
           -c CHECKOUT     Specify the location of your Fossil repository's open
                           checkout, CHECKOUT.  This is optional; you may simply
                           use this tool from within an open checkout of your
