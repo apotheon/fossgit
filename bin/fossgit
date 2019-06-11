@@ -36,8 +36,8 @@ def git_command
   cmd.join ' '
 end
 
-def push_command
-  '; git checkout trunk; git push origin trunk'
+def push_command gitremote
+  "; git checkout trunk; git push #{gitremote} trunk"
 end
 
 name = File.basename $0
@@ -76,8 +76,11 @@ else
   # configuration option that allows for control oveer whether and how it
   # auto-pushes.
 
-  command_line = mirror_command
-  command_line << push_command unless option_switch? 'local'
+  opts = Hash.new
+  opts[:local] = option_switch? 'local'
+  opts[:all] = option_switch? 'all'
+
+  remotes = Array.new
 
   gitrepo = (ARGV.shift or @config['gitrepo'])
 
@@ -91,8 +94,21 @@ else
     exit!
   end
 
+  if opts[:all]
+    remotes = @fg.git_remotes gitrepo
+  else
+    remotes = ['origin']
+  end
+
   if system 'git status'
-    system command_line
+    if opts[:local]
+      system mirror_command
+    else
+      remotes.each do |gitremote|
+        cmd_with_push = mirror_command + push_command(gitremote)
+        system cmd_with_push
+      end
+    end
   else
     STDERR.print %Q{Error!  Invalid Git repository "#{Dir.pwd}" provided.}
     exit!
