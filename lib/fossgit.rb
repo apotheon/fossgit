@@ -36,11 +36,9 @@ class FossGit
   end
 
   def git_remotes gitpath
-    origin_path = Dir.pwd
-    Dir.chdir gitpath
-    remotes = `git remote`.split "\n"
-    Dir.chdir origin_path
-    return remotes
+    Dir.chdir gitpath do
+      `git remote`.split "\n"
+    end
   end
 
   private
