@@ -38,14 +38,17 @@ class CLI
                           default, #{name} tries to push to an upstream Git
                           repository whenever it exports from Fossil to Git.
 
+          -r              Specify which configured remotes you want to push for
+                          your Git mirror.  This overrides the -a switch.
+
           -t              Dump export to STDOUT as text rather than sending it
-                          to Git.  This overrides the `-l` option and GITREPO
+                          to Git.  This overrides the `-l` switch and GITREPO
                           argument, if present.
 
           -v              Show FossGit version number.
 
           GITREPO         Specify the location of your local Git repository.
-                          This is optional, if there is a configuration file
+                          This is optional if there is a configuration file
                           that specifies it for you.
 
       EXAMPLES:
@@ -86,5 +89,13 @@ class CLI
             chaos may ensue if all Fossil repositories use the same "gitrepo".
 
     EOF
+  end
+
+  def self.get_option opt, args, default=nil
+    args.index(opt).tap do |val|
+      opt = (args.delete_at val and args.delete_at val) or default
+    end
+
+    return opt
   end
 end
