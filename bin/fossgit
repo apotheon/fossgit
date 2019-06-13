@@ -82,9 +82,11 @@ else
     exit!
   end
 
-  remotes = (CLI.get_option '-r', args).split ','
+  remotes = (CLI.get_option '-r', args)
 
   unless remotes
+    remotes.split! ','
+  else
     if opts[:all]
       remotes = @fg.git_remotes gitrepo
     else

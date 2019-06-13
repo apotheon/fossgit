@@ -92,10 +92,10 @@ class CLI
   end
 
   def self.get_option opt, args, default=nil
-    args.index(opt).tap do |val|
-      opt = (args.delete_at val and args.delete_at val) or default
+    if val = args.index(opt)
+      return (args.delete_at val and args.delete_at val)
+    else
+      return default
     end
-
-    return opt
   end
 end
