@@ -30,4 +30,20 @@ describe CLI do
       end
     end
   end
+
+  describe 'option_switch?' do
+    args = ['-a', '-c', '/path/to/heck', '--local']
+
+    it 'deletes and returns short option from args' do
+      optfound = CLI.new(args).option_switch? 'all'
+      optfound.must_equal '-a'
+      refute args.include? '-a'
+    end
+
+    it 'deletes and returns long option from args' do
+      optfound = CLI.new(args).option_switch? 'local'
+      optfound.must_equal '--local'
+      refute args.include? '--local'
+    end
+  end
 end
