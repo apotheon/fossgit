@@ -1,5 +1,11 @@
 class CLI
-  def self.help_text name='fossgit'
+  attr_accessor :args
+
+  def initialize args=[]
+    @args = args
+  end
+
+  def help_text name='fossgit'
     help = <<-EOF
 
       FossGit mirrors Fossil repositories to Git repositories.  You need:
@@ -91,7 +97,7 @@ class CLI
     EOF
   end
 
-  def self.get_option opt, args, default=nil
+  def get_option opt, default=nil
     if val = args.index(opt)
       return (args.delete_at val and args.delete_at val)
     else

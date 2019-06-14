@@ -3,17 +3,17 @@ require 'fossgit'
 require 'fossgit/cli'
 require 'yaml'
 
-args = ARGV.clone
+@cli = CLI.new ARGV
 
 def project
   (YAML.load `fossil info|head -n 1`)['project-name']
 end
 
 def option_switch? long_name, args
-  args.delete "-#{long_name[0]}" or args.delete "--#{long_name}"
+  @cli.args.delete "-#{long_name[0]}" or @cli.args.delete "--#{long_name}"
 end
 
-@fg = FossGit.new (CLI.get_option('-c', args) or Dir.pwd)
+@fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
 
 def mirror_command
   [@fg.fossil_command, sed_command, git_command].join '|'
@@ -57,22 +57,22 @@ if @config['gitdir'] and not @config['gitrepo']
   @config['gitrepo'] = (File.join @config['gitdir'], project)
 end
 
-if option_switch? 'help', args
-  puts CLI.help_text name
+if option_switch? 'help', @cli.args
+  puts @cli.help_text name
   exit
-elsif option_switch? 'version', args
+elsif option_switch? 'version', @cli.args
   puts [name, FossGit.version].join ' '
-elsif option_switch? 'text-export', args
+elsif option_switch? 'text-export', @cli.args
   puts `#{@fg.fossil_command}|#{sed_command}`
   exit
 else
   opts = Hash.new
-  opts[:local] = option_switch? 'local', args
-  opts[:all] = option_switch? 'all', args
+  opts[:local] = option_switch? 'local', @cli.args
+  opts[:all] = option_switch? 'all', @cli.args
 
-  remotes = (CLI.get_option '-r', args)
+  remotes = (@cli.get_option '-r')
 
-  gitrepo = (args.shift or @config['gitrepo'])
+  gitrepo = (@cli.args.shift or @config['gitrepo'])
 
   if gitrepo.to_s.empty?
     STDERR.puts 'Error!  No Git path provided.'
