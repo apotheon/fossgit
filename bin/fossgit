@@ -3,7 +3,7 @@ require 'fossgit'
 require 'fossgit/cli'
 require 'yaml'
 
-@cli = CLI.new ARGV
+@cli = CLI.new ARGV, File.basename($0)
 
 def project
   (YAML.load `fossil info|head -n 1`)['project-name']
@@ -36,32 +36,15 @@ def push_command gitremote
   "; git checkout trunk; git push #{gitremote} trunk"
 end
 
-name = File.basename $0
-
-config_file = '.fossgit'
-home_config = File.join(ENV['HOME'], config_file)
-
-@config = Hash.new
-
-if File.exist? home_config
-  @config = YAML.load_file home_config
-end
-
-if File.exist? config_file
-  YAML.load_file(config_file).tap do |local|
-    local.each_key {|k| @config[k] = local[k] }
-  end
-end
-
-if @config['gitdir'] and not @config['gitrepo']
-  @config['gitrepo'] = (File.join @config['gitdir'], project)
+if @cli.config['gitdir'] and not @cli.config['gitrepo']
+  @cli.config['gitrepo'] = (File.join @cli.config['gitdir'], project)
 end
 
 if option_switch? 'help', @cli.args
-  puts @cli.help_text name
+  puts @cli.help_text
   exit
 elsif option_switch? 'version', @cli.args
-  puts [name, FossGit.version].join ' '
+  puts [@cli.name, FossGit.version].join ' '
 elsif option_switch? 'text-export', @cli.args
   puts `#{@fg.fossil_command}|#{sed_command}`
   exit
@@ -72,7 +55,7 @@ else
 
   remotes = (@cli.get_option '-r')
 
-  gitrepo = (@cli.args.shift or @config['gitrepo'])
+  gitrepo = (@cli.args.shift or @cli.config['gitrepo'])
 
   if gitrepo.to_s.empty?
     STDERR.puts 'Error!  No Git path provided.'

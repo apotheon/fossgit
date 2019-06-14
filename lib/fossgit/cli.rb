@@ -1,11 +1,31 @@
-class CLI
-  attr_accessor :args
+require 'yaml'
 
-  def initialize args=[]
+class CLI
+  attr_accessor :args, :config, :name
+
+  def initialize args=[], cliname='fossgit', filename='.fossgit'
     @args = args
+    @config = Hash.new
+    @name = cliname
+
+    configure filename
   end
 
-  def help_text name='fossgit'
+  def configure filename
+    File.join(Dir.home, filename).tap do |h|
+      if File.exist? h
+        config = YAML.load_file h
+      end
+    end
+
+    if File.exist? filename
+      YAML.load_file(filename).tap do |local|
+        local.each_key {|k| config[k] = local[k] }
+      end
+    end
+  end
+
+  def help_text
     help = <<-EOF
 
       FossGit mirrors Fossil repositories to Git repositories.  You need:
