@@ -12,7 +12,8 @@ Install the [Ruby Gem][gem]:
 If, for some reason, that is not an available option for you or you wish to do
 things the hard way, there is another installation method:
 
-1. Clone it from the [Fossil repository][frepo] or the [GitHub mirror][grepo].
+1. Clone it from the [Fossil repository][frepo] or a mirror at [GitHub][ghrepo]
+   or [GitLab][glrepo].
 
 2. Copy the `fossgit` file to a directory in your execution path, create a
    symlink or hardlink to the repository's `fossgit` file in a directory in
@@ -94,4 +95,5 @@ significant.
 
 [gem]: https://rubygems.org/gems/fossgit
 [frepo]: https://fossrec.com/u/apotheon/fossgit
-[grepo]: https://github.com/apotheon/fossgit
+[ghrepo]: https://github.com/apotheon/fossgit
+[glrepo]: https://gitlab.com/apotheon/fossgit
