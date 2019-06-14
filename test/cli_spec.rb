@@ -12,7 +12,7 @@ describe CLI do
     describe 'with -r option' do
       args = ['-a', '-r', remote_list.join(','), '-c', '/path/to/heck']
 
-      remotes = (CLI.new(args).get_option '-r')
+      remotes = CLI.new(args).get_option '-r'
 
       it 'returns all provided remotes and args without parsed opts' do
         remotes.split(',').must_equal remote_list
@@ -23,7 +23,7 @@ describe CLI do
     describe 'without -r option' do
       args = ['-a', '-c', '/path/to/heck']
 
-      remotes = (CLI.new(args).get_option '-r')
+      remotes = CLI.new(args).get_option '-r'
 
       it 'returns nil' do
         assert_nil remotes
