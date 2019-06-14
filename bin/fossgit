@@ -11,10 +11,6 @@ end
 
 @fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
 
-def mirror_command
-  [@fg.fossil_command, @fg.sed_command, @fg.git_command].join '|'
-end
-
 def push_command gitremote
   "; git checkout trunk; git push #{gitremote} trunk"
 end
@@ -65,11 +61,11 @@ else
 
   if system 'git status'
     if opts[:local]
-      system mirror_command
+      system @fg.mirror_command
     else
       remotes.each do |gitremote|
         puts "PUSH TO: #{gitremote}"
-        cmd_with_push = mirror_command + push_command(gitremote)
+        cmd_with_push = @fg.mirror_command + push_command(gitremote)
         system cmd_with_push
       end
     end

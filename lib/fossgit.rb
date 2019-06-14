@@ -44,6 +44,10 @@ class FossGit
     %q{sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'}
   end
 
+  def mirror_command
+    [fossil_command, sed_command, git_command].join '|'
+  end
+
   def update_export?
     File.exist? git_marks and File.exist? fossil_marks
   end
