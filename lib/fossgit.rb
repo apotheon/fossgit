@@ -31,6 +31,10 @@ class FossGit
     cmd.join ' '
   end
 
+  def sed_command
+    %q{sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'}
+  end
+
   def update_export?
     File.exist? git_marks and File.exist? fossil_marks
   end

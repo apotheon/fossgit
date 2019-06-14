@@ -12,11 +12,7 @@ end
 @fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
 
 def mirror_command
-  [@fg.fossil_command, sed_command, git_command].join '|'
-end
-
-def sed_command
-  %q{sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'}
+  [@fg.fossil_command, @fg.sed_command, git_command].join '|'
 end
 
 def git_command
@@ -42,7 +38,7 @@ if @cli.option_switch? 'help'
 elsif @cli.option_switch? 'version'
   puts [@cli.name, FossGit.version].join ' '
 elsif @cli.option_switch? 'text-export'
-  puts `#{@fg.fossil_command}|#{sed_command}`
+  puts `#{@fg.fossil_command}|#{@fg.sed_command}`
   exit
 else
   opts = Hash.new
