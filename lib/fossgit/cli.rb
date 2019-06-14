@@ -72,8 +72,10 @@ class CLI
                           default, #{name} tries to push to an upstream Git
                           repository whenever it exports from Fossil to Git.
 
-          -r              Specify which configured remotes you want to push for
-                          your Git mirror.  This overrides the -a switch.
+          -r              Specify which of your Git mirror's configured remotes
+                          you want to push.  This overrides the -a switch.  For
+                          multiple remotes, use a comma-separated list with no
+                          spaces between them.
 
           -t              Dump export to STDOUT as text rather than sending it
                           to Git.  This overrides the `-l` switch and GITREPO
@@ -85,7 +87,7 @@ class CLI
                           This is optional if there is a configuration file
                           that specifies it for you.
 
-      EXAMPLES:
+      COMMAND EXAMPLES:
 
           $ fossgit -h
 
@@ -109,7 +111,7 @@ class CLI
           most common case, but for specific projects that have different needs
           you can place a config file the project repository.
 
-          There are two configuration options:
+          These are the available configuration options:
 
           * The "gitdir" setting can be used to specify a directory in which
             Git repositories are kept.  In this case, #{name} infers the Git
@@ -121,6 +123,21 @@ class CLI
             probably a bad idea to set "gitrepo" in a universal config.  It is
             intended to be set in a project-specific ".fossgit" file because
             chaos may ensue if all Fossil repositories use the same "gitrepo".
+
+          * The "remotes" setting can be used to specify which of your Git
+            mirror's configured remotes you want to use when pushing from Git.
+            As with the -r command line option, you can list one remote or list
+            several as a comma-separated list with no spaces.  The "remotes"
+            setting in a configuration file accepts the "all" value, equivalent
+            to the -a command line option.
+
+        CONFIG EXAMPLES:
+
+          gitdir: /home/username/fossrec/git
+
+          gitrepo: /home/username/fossrec
+
+          remotes: gitlab
 
     EOF
   end
