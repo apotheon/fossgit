@@ -3,17 +3,17 @@ require 'fossgit'
 require 'fossgit/cli'
 require 'yaml'
 
-@cli = CLI.new ARGV, File.basename($0)
-
-def project
+def projectname
   (YAML.load `fossil info|head -n 1`)['project-name']
 end
 
-@fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
+@cli = CLI.new ARGV, File.basename($0)
 
 if @cli.config['gitdir'] and not @cli.config['gitrepo']
-  @cli.config['gitrepo'] = (File.join @cli.config['gitdir'], project)
+  @cli.config['gitrepo'] = File.join(@cli.config['gitdir'], projectname)
 end
+
+@fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
 
 if @cli.option_switch? 'help'
   puts @cli.help_text
