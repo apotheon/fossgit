@@ -12,16 +12,7 @@ end
 @fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
 
 def mirror_command
-  [@fg.fossil_command, @fg.sed_command, git_command].join '|'
-end
-
-def git_command
-  cmd = ['git fast-import']
-
-  cmd << "--import-marks=#{@fg.git_marks}" if @fg.update_export?
-  cmd << "--export-marks=#{@fg.git_marks}"
-
-  cmd.join ' '
+  [@fg.fossil_command, @fg.sed_command, @fg.git_command].join '|'
 end
 
 def push_command gitremote

@@ -31,6 +31,15 @@ class FossGit
     cmd.join ' '
   end
 
+  def git_command
+    cmd = ['git fast-import']
+
+    cmd << "--import-marks=#{git_marks}" if update_export?
+    cmd << "--export-marks=#{git_marks}"
+
+    cmd.join ' '
+  end
+
   def sed_command
     %q{sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'}
   end
