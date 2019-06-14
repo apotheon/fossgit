@@ -9,10 +9,6 @@ def project
   (YAML.load `fossil info|head -n 1`)['project-name']
 end
 
-def option_switch? long_name, args
-  @cli.args.delete "-#{long_name[0]}" or @cli.args.delete "--#{long_name}"
-end
-
 @fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
 
 def mirror_command
@@ -40,21 +36,21 @@ if @cli.config['gitdir'] and not @cli.config['gitrepo']
   @cli.config['gitrepo'] = (File.join @cli.config['gitdir'], project)
 end
 
-if option_switch? 'help', @cli.args
+if @cli.option_switch? 'help'
   puts @cli.help_text
   exit
-elsif option_switch? 'version', @cli.args
+elsif @cli.option_switch? 'version'
   puts [@cli.name, FossGit.version].join ' '
-elsif option_switch? 'text-export', @cli.args
+elsif @cli.option_switch? 'text-export'
   puts `#{@fg.fossil_command}|#{sed_command}`
   exit
 else
   opts = Hash.new
-  opts[:local] = option_switch? 'local', @cli.args
+  opts[:local] = @cli.option_switch? 'local'
 
   @cli.remotes = nil if (opts[:all] = @cli.remotes.eql? 'all')
 
-  opts[:all] ||= option_switch?('all', @cli.args)
+  @cli.option_switch?('all').tap {|v| opts[:all] ||= v }
 
   remotes = (@cli.get_option '-r') or @cli.remotes
 
