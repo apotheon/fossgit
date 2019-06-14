@@ -5,7 +5,7 @@ require 'minitest/rg'
 require_relative '../lib/fossgit/cli.rb'
 
 describe CLI do
-  describe 'self.get_option' do
+  describe 'get_option' do
     remote_list = ['gitlab', 'origin']
     post_parse_args = ['-a', '-c', '/path/to/heck']
 
