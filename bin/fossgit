@@ -4,7 +4,11 @@ require 'fossgit/cli'
 require 'yaml'
 
 def projectname
-  (YAML.load `fossil info|head -n 1`)['project-name']
+  name = (YAML.load `fossil info|head -n 1`)['project-name']
+
+  unless name.eql? '<unnamed>'
+    name
+  end
 end
 
 @cli = CLI.new ARGV, File.basename($0)
