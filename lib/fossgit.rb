@@ -31,6 +31,10 @@ class FossGit
     cmd.join ' '
   end
 
+  def push_command gitremote
+    "; git checkout trunk; git push #{gitremote} trunk"
+  end
+
   def git_command
     cmd = ['git fast-import']
 
@@ -46,6 +50,10 @@ class FossGit
 
   def mirror_command
     [fossil_command, sed_command, git_command].join '|'
+  end
+
+  def mirror_push_command gitremote
+    mirror_command + push_command(gitremote)
   end
 
   def text_export_command
