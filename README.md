@@ -81,7 +81,6 @@ In order from most preferred to least preferred:
 ## Roadmap
 
 * Add more tests, maybe.
-* Change the color scheme for this repository to make tickets more readable.
 * Incorporate this functionality into FossRec, a more comprehensive tool.
 
 [gem]: https://rubygems.org/gems/fossgit
