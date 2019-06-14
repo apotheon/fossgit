@@ -52,7 +52,7 @@ class FossGit
     [fossil_command, sed_command, git_command].join '|'
   end
 
-  def mirror_push_command gitremote
+  def push_mirror_command gitremote
     mirror_command + push_command(gitremote)
   end
 
