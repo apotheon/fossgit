@@ -9,7 +9,7 @@ end
 
 @cli = CLI.new ARGV, File.basename($0)
 
-if @cli.config['gitdir'] and not @cli.config['gitrepo']
+if @cli.config['gitdir'] and projectname and not @cli.config['gitrepo']
   @cli.config['gitrepo'] = File.join(@cli.config['gitdir'], projectname)
 end
 
