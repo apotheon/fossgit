@@ -59,10 +59,7 @@ else
     if opts[:local]
       system @fg.mirror_command
     else
-      remotes.each do |gitremote|
-        puts "PUSH TO: #{gitremote}"
-        system @fg.push_mirror_command(gitremote)
-      end
+      @fg.push_remote_list! remotes
     end
   else
     STDERR.print %Q{Error!  Invalid Git repository "#{Dir.pwd}" provided.}

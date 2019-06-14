@@ -56,6 +56,13 @@ class FossGit
     mirror_command + push_command(gitremote)
   end
 
+  def push_remote_list! remote_list
+    remote_list.each do |gitremote|
+      puts "PUSH TO: #{gitremote}"
+      system push_mirror_command(gitremote)
+    end
+  end
+
   def text_export_command
     [fossil_command, sed_command].join '|'
   end
