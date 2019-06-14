@@ -8,18 +8,26 @@ class CLI
     @config = Hash.new
     @name = cliname
 
-    configure filename
+    @config_filename = filename
+    @home_config_file = File.join(Dir.home, @config_filename)
+
+    configure @config_filename
   end
 
-  def configure filename
-    File.join(Dir.home, filename).tap do |h|
-      if File.exist? h
-        @config = YAML.load_file h
-      end
-    end
+  def configure file=@config_filename
+    load_home_config
+    load_local_config file
+  end
 
-    if File.exist? filename
-      YAML.load_file(filename).tap do |local|
+  def load_home_config
+    if File.exist? @home_config_file
+      @config = YAML.load_file @home_config_file
+    end
+  end
+
+  def load_local_config file=@config_filename
+    if File.exist? file
+      YAML.load_file(file).tap do |local|
         local.each_key {|k| @config[k] = local[k] }
       end
     end
