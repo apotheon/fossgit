@@ -14,13 +14,13 @@ class CLI
   def configure filename
     File.join(Dir.home, filename).tap do |h|
       if File.exist? h
-        config = YAML.load_file h
+        @config = YAML.load_file h
       end
     end
 
     if File.exist? filename
       YAML.load_file(filename).tap do |local|
-        local.each_key {|k| config[k] = local[k] }
+        local.each_key {|k| @config[k] = local[k] }
       end
     end
   end
