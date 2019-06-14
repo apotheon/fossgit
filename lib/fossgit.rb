@@ -48,6 +48,10 @@ class FossGit
     [fossil_command, sed_command, git_command].join '|'
   end
 
+  def text_export_command
+    [fossil_command, sed_command].join '|'
+  end
+
   def update_export?
     File.exist? git_marks and File.exist? fossil_marks
   end

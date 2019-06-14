@@ -25,7 +25,7 @@ if @cli.option_switch? 'help'
 elsif @cli.option_switch? 'version'
   puts [@cli.name, FossGit.version].join ' '
 elsif @cli.option_switch? 'text-export'
-  puts `#{@fg.fossil_command}|#{@fg.sed_command}`
+  puts system(@fg.text_export_command)
   exit
 else
   opts = Hash.new
