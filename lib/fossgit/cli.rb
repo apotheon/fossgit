@@ -149,4 +149,8 @@ class CLI
       return default
     end
   end
+
+  def option_switch? long_name
+    args.delete "-#{long_name[0]}" or args.delete "--#{long_name}"
+  end
 end
