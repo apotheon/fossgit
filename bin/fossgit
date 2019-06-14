@@ -51,9 +51,12 @@ elsif option_switch? 'text-export', @cli.args
 else
   opts = Hash.new
   opts[:local] = option_switch? 'local', @cli.args
-  opts[:all] = option_switch? 'all', @cli.args
 
-  remotes = (@cli.get_option '-r')
+  @cli.remotes = nil if (opts[:all] = @cli.remotes.eql? 'all')
+
+  opts[:all] ||= option_switch?('all', @cli.args)
+
+  remotes = (@cli.get_option '-r') or @cli.remotes
 
   gitrepo = (@cli.args.shift or @cli.config['gitrepo'])
 

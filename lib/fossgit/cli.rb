@@ -25,6 +25,14 @@ class CLI
     end
   end
 
+  def remotes
+    config['remotes']
+  end
+
+  def remotes= gitremotes
+    config['remotes'] = gitremotes
+  end
+
   def help_text
     help = <<-EOF
 
