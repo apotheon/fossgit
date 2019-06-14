@@ -24,6 +24,9 @@ things the hard way, there is another installation method:
 
         gem install fossgit-<version>
 
+If that still does not suit your needs, you're on your own for now.  I'd be
+happy to accept suggestions for additional installation methods to describe.
+
 ## Usage
 
 With an open checkout of your Fossil repository:
