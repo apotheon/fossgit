@@ -70,6 +70,8 @@ else
   opts[:local] = option_switch? 'local', args
   opts[:all] = option_switch? 'all', args
 
+  remotes = (CLI.get_option '-r', args)
+
   gitrepo = (args.shift or @config['gitrepo'])
 
   if gitrepo.to_s.empty?
@@ -82,10 +84,8 @@ else
     exit!
   end
 
-  remotes = (CLI.get_option '-r', args)
-
-  unless remotes
-    remotes.split! ','
+  if remotes
+    remotes = remotes.split ','
   else
     if opts[:all]
       remotes = @fg.git_remotes gitrepo
@@ -99,6 +99,7 @@ else
       system mirror_command
     else
       remotes.each do |gitremote|
+        puts "PUSH TO: #{gitremote}"
         cmd_with_push = mirror_command + push_command(gitremote)
         system cmd_with_push
       end
