@@ -31,6 +31,29 @@ describe CLI do
     end
   end
 
+  describe 'help_text' do
+    args = Array.new
+
+    describe 'with default executable name' do
+      name = 'fossgit'
+
+      it 'returns help text with default name' do
+        CLI.new(args).help_text.must_match /USAGE:  #{name} -h/
+        CLI.new(args).help_text.must_match /-c CHECKOUT     Specify the/
+        CLI.new(args).help_text.must_match /#{name} tries to push to an/
+        CLI.new(args).help_text.must_match /\s+EXAMPLES:/
+      end
+    end
+
+    describe 'with non-default executable name' do
+      name = 'not-fossgit'
+
+      it 'returns help text with custom name' do
+        CLI.new(args, name).help_text.must_match /USAGE:  #{name} -h/
+      end
+    end
+  end
+
   describe 'option_switch?' do
     args = ['-a', '-c', '/path/to/heck', '--local']
 
