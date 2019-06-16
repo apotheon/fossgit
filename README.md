@@ -81,6 +81,7 @@ In order from most preferred to least preferred:
 ## Roadmap
 
 * Add more tests, maybe.
+* Change defaults for v2.0, perhaps.
 * Incorporate this functionality into FossRec, a more comprehensive tool.
 
 [gem]: https://rubygems.org/gems/fossgit
