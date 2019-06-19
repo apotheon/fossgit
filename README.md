@@ -54,14 +54,31 @@ project-name setting in your Fossil repository:
 
     gitpath: /path/to/gitdir
 
-Once again, this allows you to run the command without arguments:
+Once again, this allows you to run the command without arguments, but in this
+case you should ensure the "project name" setting has been configured in your
+Fossil repository, because it will default to using that to find your local Git
+mirror.  If you want to specify a different Git repository name, using the
+`gitrepo` setting in a `.fossgit` file within the checkout of your Fossil
+repository as described above might be a better option.
+
+You can check whether your project name has been configured by running this
+command from within an open checkout:
+
+    $ fossil info
+
+If the `project-name` line says `<unnamed>`, the project name is unconfigured.
+You can cofigure it yourself; open the web UI for the repository (e.g.  run
+`fossil serve` from within an open checkout and open `localhost:8080` in your
+browser), navigate to `Admin > Configuration`, fill in the Project Name field,
+and click the button to apply your changes.
 
 If you do both, the most-specific option (gitrepo) will be chosen as the target
-Git repository, which is probably a good idea if you have not configure the
-Fossil repository's project-name setting or if you want to default to updating
-a mirror with a different name than the Fossil project-name.  Specifying a
-repository path at the command line will cause `fossgit` to ignore both, and
-just use the command line argument as the target Git repository path.
+Git repository, which is probably a good idea if, for a specific project, you
+have not configured the Fossil repository's project-name setting, or if you
+want to default to updating a mirror with a different name than the Fossil
+project-name.  Specifying a repository path at the command line will cause
+`fossgit` to ignore both, and just use the command line argument as the target
+Git repository path.
 
 ## Dependencies
 
