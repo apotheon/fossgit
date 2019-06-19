@@ -139,7 +139,7 @@ class CLI
             setting in a configuration file accepts the "all" value, equivalent
             to the -a command line option.
 
-        CONFIG EXAMPLES:
+      CONFIG EXAMPLES:
 
           gitdir: /home/username/fossrec/git
 
