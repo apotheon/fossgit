@@ -29,10 +29,22 @@ happy to accept suggestions for additional installation methods to describe.
 
 ## Usage
 
+After installation, you can use this command to see documentation for command
+line usage and (optional) configuration:
+
+    $ fossgit -h
+
+### Basic Command Line
+
 With an open checkout of your Fossil repository:
 
     $ cd /path/to/open/fossil/checkout
     $ fossgit /path/to/git/repository
+
+### Config
+
+The following is just a basic introduction to FossGit configuration.  See full
+config documentation via the command line tool's `-h` option.
 
 By placing a config file in the directory that will serve as your working
 directory while running `fossgit` (typically the root of your Fossil repository
