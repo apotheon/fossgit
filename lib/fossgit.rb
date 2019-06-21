@@ -45,6 +45,7 @@ class FossGit
   end
 
   def sed_command
+    # legacy fix for a bug in an old Fossil version's Git-export
     %q{sed 's/^\(committer \+\)\([^ ]\+@[^ ]\+\)\( *<\)\(\w\+\)\(>.*\)$/\1\4\3\2\5/'}
   end
 
