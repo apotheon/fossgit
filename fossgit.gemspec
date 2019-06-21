@@ -29,7 +29,13 @@ Gem::Specification.new do |s|
     * Git (the world's most popular DVCS)
     * sed (standard on Unix-like systems)
 
-    Run "fossgit -h" for usage information.
+    This update adds support for configuration files and specifying which Git
+    remotes to push.  It should not break backward compatibility.  If it does,
+    that is a bug, and you are encouraged to report it at:
+
+        https://fossrec.com/u/apotheon/fossgit/index.cgi/reportlist
+
+    Run "fossgit -h" for usage and configuration information.
   EOF
 
   s.required_ruby_version = '>= 2.4.5'
