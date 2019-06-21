@@ -50,9 +50,8 @@ class CLI
       2. a Fossil repository with an open checkout to export
       3. a Git repository to use as a mirror
 
-      USAGE:  #{name} -h
-              #{name} [-c <CHECKOUT>] [-l] [GITREPO]
-              #{name} -t
+      USAGE:  #{name} [-h | -v | -t]
+              #{name} [-c <CHECKOUT>] [-a | -r REMOTE | -l] [GITREPO]
 
           By default, when exporting to local Git repository GITREPO, #{name}
           attempts to push updates to a configured upstream Git repository.  It
