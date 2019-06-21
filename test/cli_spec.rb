@@ -38,7 +38,7 @@ describe CLI do
       name = 'fossgit'
 
       it 'returns help text with default name' do
-        CLI.new(args).help_text.must_match /USAGE:  #{name} -h/
+        CLI.new(args).help_text.must_match /USAGE:  #{name} [-h | -v | -t]/
         CLI.new(args).help_text.must_match /-c CHECKOUT     Specify the/
         CLI.new(args).help_text.must_match /#{name} tries to push to an/
         CLI.new(args).help_text.must_match /\s+EXAMPLES:/
@@ -49,7 +49,7 @@ describe CLI do
       name = 'not-fossgit'
 
       it 'returns help text with custom name' do
-        CLI.new(args, name).help_text.must_match /USAGE:  #{name} -h/
+        CLI.new(args, name).help_text.must_match /USAGE:  #{name} /
       end
     end
   end
