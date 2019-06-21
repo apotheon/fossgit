@@ -32,5 +32,5 @@ Gem::Specification.new do |s|
     Run "fossgit -h" for usage information.
   EOF
 
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.4.5'
 end
