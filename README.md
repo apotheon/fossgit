@@ -109,9 +109,10 @@ In order from most preferred to least preferred:
 
 ## Roadmap
 
-* Add more tests, maybe.
+* Add more tests.
 * Change defaults for v2.0, perhaps.
 * Incorporate this functionality into FossRec, a more comprehensive tool.
+* Organize lib APIs and document them.  (Don't rely on undocumented APIs.)
 
 [gem]: https://rubygems.org/gems/fossgit
 [frepo]: https://fossrec.com/u/apotheon/fossgit
