@@ -4,20 +4,19 @@ require 'fossgit/cli'
 require 'yaml'
 
 def projectname
-  name = (YAML.load `fossil info|head -n 1`)['project-name']
-
-  unless name.eql? '<unnamed>'
-    name
-  end
+  fossil_info = YAML.load `fossil info | head -n 1`
+  name = fossil_info ? fossil_info['project-name'] : fossil_info
+  name if not name.eql? '<unnamed>'
 end
 
 @cli = CLI.new ARGV, File.basename($0)
+@fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
+
+Dir.chdir @fg.checkout_path
 
 if @cli.config['gitdir'] and projectname and not @cli.config['gitrepo']
   @cli.config['gitrepo'] = File.join(@cli.config['gitdir'], projectname)
 end
-
-@fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
 
 if @cli.option_switch? 'help'
   puts @cli.help_text
