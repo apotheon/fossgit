@@ -109,6 +109,8 @@ In order from most preferred to least preferred:
 
 ## Roadmap
 
+* Add autovivifying functionality for a local Git mirror.
+* Add autovivifying functionality for GitHub and GitLab remotes.
 * Add more tests.
 * Change defaults for v2.0, perhaps.
 * Incorporate this functionality into FossRec, a more comprehensive tool.
