@@ -79,6 +79,14 @@ class CLI
                           default, #{name} tries to push to an upstream Git
                           repository whenever it exports from Fossil to Git.
 
+          -n              Create a new Git repository mirror of an existing
+                          Fossil repository.  Use this option from the root of
+                          the Fossil repository's directory hierarchy and
+                          specify the location of the Git repository as you
+                          would for updating a mirror via configuration file,
+                          GITREPO argument, and possibly the Fossil setting for
+                          project-name as listed in `fossil info` output.
+
           -r              Specify which of your Git mirror's configured remotes
                           you want to push.  This overrides the -a switch.  For
                           multiple remotes, use a comma-separated list with no
