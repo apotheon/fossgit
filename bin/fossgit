@@ -29,12 +29,19 @@ elsif @cli.option_switch? 'text-export'
 else
   opts = Hash.new
   opts[:local] = @cli.option_switch? 'local'
+  opts[:all] = @cli.option_switch? 'all'
 
-  @cli.remotes = nil if (opts[:all] = @cli.remotes.eql? 'all')
-
-  @cli.option_switch?('all').tap {|v| opts[:all] ||= v }
-
-  remotes = (@cli.get_option '-r') or @cli.remotes
+  remotes = @cli.get_option('-r')
+  
+  unless remotes
+    if opts[:all]
+      remotes = @fg.git_remotes(gitrepo)
+    elsif @cli.remotes
+      remotes = (@cli.remotes == 'all') ? @fg.git_remotes(gitrepo) : @cli.remotes
+    else
+      remotes = ['origin']
+    end
+  end
 
   gitrepo = (@cli.args.shift or @cli.config['gitrepo'])
 
@@ -48,19 +55,12 @@ else
     exit!
   end
 
-  if remotes
-    remotes = remotes.split ','
-  else
-    if opts[:all]
-      remotes = @fg.git_remotes gitrepo
-    else
-      remotes = ['origin']
-    end
-  end
-
   if system 'git status'
     if opts[:local]
       system @fg.mirror_command
+    elsif remotes.empty?
+      STDERR.print %Q{Error!  Git repository "#{Dir.pwd}" has no remotes.}
+      exit!
     else
       @fg.push_remote_list! remotes
     end
