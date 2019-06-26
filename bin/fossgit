@@ -27,6 +27,8 @@ elsif @cli.option_switch? 'text-export'
   system @fg.text_export_command
   exit
 else
+  newgit = @cli.option_switch? 'newgit'
+
   opts = Hash.new
   opts[:local] = @cli.option_switch? 'local'
   opts[:all] = @cli.option_switch? 'all'
@@ -43,12 +45,34 @@ else
     end
   end
 
+  ### NO MORE OPTION PARSING
+
   gitrepo = (@cli.args.shift or @cli.config['gitrepo'])
+
+  hasgit = Dir.exist? gitrepo
 
   if gitrepo.to_s.empty?
     STDERR.puts 'Error!  No Git path provided.'
     exit!
-  elsif Dir.exist? gitrepo
+  elsif newgit and gitrepo
+    if hasgit
+      STDERR.puts %Q{Error!  Directory "#{gitrepo}" already exists.}
+      exit!
+    elsif Dir.mkdir gitrepo
+      Dir.chdir(gitrepo)
+
+      if `git init`.empty?
+        STDERR.puts %{Error!  Cannot init Git within "#{gitrepo}".}
+        exit!
+      end
+    else
+      STDERR.puts %Q{Error!  Cannot create directory "#{gitrepo}".}
+      exit!
+    end
+  elsif newgit
+    STDERR.puts %Q{Error!  Name for new Git repository unknown.}
+    exit!
+  elsif hasgit
     Dir.chdir gitrepo
   else
     STDERR.puts %Q{Error!  Invalid Git path "#{gitrepo}" provided.}
