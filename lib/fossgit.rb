@@ -1,12 +1,17 @@
+require 'yaml'
+
 class FossGit
   attr_reader :checkout_path
   attr_reader :fossil_repository
+  attr_accessor :project_name
 
   def initialize checkout_path=''
     @checkout_path = checkout_path
     @checkout_path = get_element_matching :'local-root'
 
     @fossil_repository = get_repository_path
+
+    @project_name = get_project_name
   end
 
   def self.version
@@ -79,6 +84,12 @@ class FossGit
   end
 
   private
+
+  def get_project_name
+    fossil_info = YAML.load `fossil info | head -n 1`
+    name = fossil_info ? fossil_info['project-name'] : fossil_info
+    name if not name.eql? '<unnamed>'
+  end
 
   def get_repository_path
     File.absolute_path get_element_matching :repository
