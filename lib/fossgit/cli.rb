@@ -51,7 +51,7 @@ class CLI
       3. a Git repository to use as a mirror
 
       USAGE:  #{name} [-h | -v | -t]
-              #{name} [-c <CHECKOUT>] [-a | -r REMOTE | -l] [-n] [GITREPO]
+              #{name} [-c <CHECKOUT>] [-a | -r REMOTE | -l] [[-n] GITREPO]
 
           By default, when exporting to local Git repository GITREPO, #{name}
           attempts to push updates to a configured upstream Git repository.  It
