@@ -24,6 +24,10 @@ describe FossGit do
         fg.fossil_marks.must_equal fossil_marks_path
         fg.git_marks.must_equal git_marks_path
       end
+
+      it 'reports the correct project name' do
+        fg.project_name.must_equal 'fossgit'
+      end
     end
   end
 
