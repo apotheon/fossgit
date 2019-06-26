@@ -34,8 +34,12 @@ else
   opts[:all] = @cli.option_switch? 'all'
 
   remotes = @cli.get_option('-r')
+
+  ### NO MORE OPTION PARSING
+
+  gitrepo = (@cli.args.shift or @cli.config['gitrepo'])
   
-  unless remotes
+  unless remotes or opts[:local]
     if opts[:all]
       remotes = @fg.git_remotes(gitrepo)
     elsif @cli.remotes
@@ -44,10 +48,6 @@ else
       remotes = ['origin']
     end
   end
-
-  ### NO MORE OPTION PARSING
-
-  gitrepo = (@cli.args.shift or @cli.config['gitrepo'])
 
   hasgit = Dir.exist? gitrepo
 
