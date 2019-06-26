@@ -7,8 +7,8 @@ require 'fossgit/cli'
 
 Dir.chdir @fg.checkout_path
 
-if @cli.config['gitdir'] and @fg.project_name and not @cli.config['gitrepo']
-  @cli.config['gitrepo'] = File.join(@cli.config['gitdir'], @fg.project_name)
+if @cli.config['gitdir'] and @fg.project_name
+  @cli.config['gitrepo'] ||= File.join(@cli.config['gitdir'], @fg.project_name)
 end
 
 if @cli.option_switch? 'help'
