@@ -3,7 +3,7 @@ require 'fossgit'
 require 'fossgit/cli'
 
 @cli = CLI.new ARGV, File.basename($0)
-@fg = FossGit.new (@cli.get_option('-c') or Dir.pwd)
+@fg = FossGit.new (@cli.get_option('checkout') or Dir.pwd)
 
 Dir.chdir @fg.checkout_path
 
@@ -26,7 +26,7 @@ else
   opts[:local] = @cli.option_switch? 'local'
   opts[:all] = @cli.option_switch? 'all'
 
-  remotes = @cli.get_option('-r')
+  remotes = @cli.get_option('remotes')
 
   ### NO MORE OPTION PARSING
 

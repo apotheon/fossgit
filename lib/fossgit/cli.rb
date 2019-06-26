@@ -157,8 +157,8 @@ class CLI
     EOF
   end
 
-  def get_option opt, default=nil
-    if val = args.index(opt)
+  def get_option long_name, default=nil
+    if val = (args.index "-#{long_name[0]}" or args.index "--#{long_name}")
       return (args.delete_at val and args.delete_at val)
     else
       return default
