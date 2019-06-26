@@ -62,45 +62,53 @@ class CLI
 
       OPTIONS/ARGUMENTS:
 
-          -h              Display this help text and exit, ignoring all other
-                          arguments.
+          -h | --help
 
-          -a              Push to all configured remotes for the target Git
-                          repository.  Default behavior is to push only to the
-                          configured "origin" remote.
+              Display this help text and exit, ignoring all other arguments.
 
-          -c CHECKOUT     Specify the location of your Fossil repository's open
-                          checkout, CHECKOUT.  This is optional; you may simply
-                          use this tool from within an open checkout of your
-                          Fossil repository instead.
+          -a | --all
 
-          -l              Perform local-only mirror operations, without trying
-                          to push Git updates to a remote repository.  By
-                          default, #{name} tries to push to an upstream Git
-                          repository whenever it exports from Fossil to Git.
+              Push to all configured remotes for the target Git repository.
+              Default is to push only to the configured "origin" remote.
 
-          -n              Create a new Git repository mirror of an existing
-                          Fossil repository.  Use this option from the root of
-                          the Fossil repository's directory hierarchy and
-                          specify the location of the Git repository as you
-                          would for updating a mirror via configuration file,
-                          GITREPO argument, and possibly the Fossil setting for
-                          project-name as listed in `fossil info` output.
+          -c <CHECKOUT> | --checkout <CHECKOUT>
 
-          -r              Specify which of your Git mirror's configured remotes
-                          you want to push.  This overrides the -a switch.  For
-                          multiple remotes, use a comma-separated list with no
-                          spaces between them.
+              Specify CHECKOUT, your Fossil repository's checkout location.
+              This is optional; you may simply use this tool from within an
+              open checkout of your Fossil repository instead.
 
-          -t              Dump export to STDOUT as text rather than sending it
-                          to Git.  This overrides the `-l` switch and GITREPO
-                          argument, if present.
+          -l | --local
 
-          -v              Show FossGit version number.
+              Perform local-only mirror operations without pushing to a remote
+              Git repository.  By default, #{name} pushes to an upstream Git
+              repository whenever it exports from Fossil to Git.
 
-          GITREPO         Specify the location of your local Git repository.
-                          This is optional if there is a configuration file
-                          that specifies it for you.
+          -n | --newgit
+          
+              Create a local Git repository mirror when it does not already
+              exist.  Use this option from the Fossil repository's directory
+              hierarchy root and specify the Git repository's location as for
+              updating a mirror via config file, GITREPO argument, or Fossil
+              project-name setting in `fossil info` output.
+
+          -r | --remotes <COMMA,SEPARATED,REMOTES>
+
+              Specify which of the Git mirror's configured remotes to push in a
+              comma separated list with no spaces.  This overrides `--all`.
+
+          -t | --text-export
+          
+              Dump export to STDOUT as text rather than sending it to Git.
+              This overrides the `-l` switch and GITREPO argument, if present.
+
+          -v | --version
+          
+              Show FossGit version number.
+
+          GITREPO
+          
+              Specify the location of the local Git mirror, if there is no
+              configuration file specification or to override configuration.
 
       COMMAND EXAMPLES:
 
