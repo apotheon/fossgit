@@ -17,7 +17,7 @@ if @cli.switches['help']
   puts @cli.help_text
   exit
 elsif @cli.switches['version']
-  puts [@cli.name, FossGit.version].join ' '
+  puts @cli.name + ' ' + FossGit.version
 elsif @cli.switches['text-export']
   system @fg.text_export_command
   exit
