@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name        = 'fossgit'
   s.version     = FossGit.version
   s.authors     = ['Chad Perrin']
-  s.date        = '2019-06-20'
+  s.date        = '2019-06-26'
   s.description = <<-EOF
     Maintain a presence in Git hosting for Fossil project mirrors.
   EOF
@@ -29,9 +29,8 @@ Gem::Specification.new do |s|
     * Git (the world's most popular DVCS)
     * sed (standard on Unix-like systems)
 
-    This update adds support for configuration files and specifying which Git
-    remotes to push.  It should not break backward compatibility.  If it does,
-    that is a bug, and you are encouraged to report it at:
+    This update adds support for the full range of long options and for
+    creating a new local Git mirror on the fly via command line option.
 
         https://fossrec.com/u/apotheon/fossgit/index.cgi/reportlist
 
