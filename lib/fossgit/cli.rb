@@ -1,7 +1,7 @@
 require 'yaml'
 
 class CLI
-  attr_accessor :args, :config, :name
+  attr_accessor :args, :config, :name, :switches
 
   def initialize args=[], cliname='fossgit', filename='.fossgit'
     @args = args
@@ -12,6 +12,8 @@ class CLI
     @home_config_file = File.join(Dir.home, @config_filename)
 
     configure @config_filename
+
+    @switches = Hash.new
   end
 
   def configure file=@config_filename
@@ -175,5 +177,9 @@ class CLI
 
   def option_switch? long_name
     args.delete "-#{long_name[0]}" or args.delete "--#{long_name}"
+  end
+
+  def parse_switches opts
+    opts.each {|opt| switches[opt] = option_switch? opt }
   end
 end

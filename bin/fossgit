@@ -11,16 +11,14 @@ if @cli.config['gitdir'] and @fg.project_name
   @cli.config['gitrepo'] ||= File.join(@cli.config['gitdir'], @fg.project_name)
 end
 
-opts = Hash.new
-optlist = %w(all help local newgit text-export version)
-optlist.each {|opt| opts[opt] = @cli.option_switch? opt }
+@cli.parse_switches %w(all help local newgit text-export version)
 
-if opts['help']
+if @cli.switches['help']
   puts @cli.help_text
   exit
-elsif opts['version']
+elsif @cli.switches['version']
   puts [@cli.name, FossGit.version].join ' '
-elsif opts['text-export']
+elsif @cli.switches['text-export']
   system @fg.text_export_command
   exit
 else
@@ -32,10 +30,10 @@ else
 
   gitrepo = (@cli.args.shift or @cli.config['gitrepo'])
 
-  unless remotes or opts['local']
-    if opts['all']
+  unless remotes or @cli.switches['local']
+    if @cli.switches['all']
       remotes = @fg.git_remotes(gitrepo)
-    elsif @cli.remotes and not opts['newgit']
+    elsif @cli.remotes and not @cli.switches['newgit']
       remotes = (@cli.remotes == 'all') ? @fg.git_remotes(gitrepo) : @cli.remotes
     else
       remotes = ['origin']
@@ -47,7 +45,7 @@ else
   if gitrepo.to_s.empty?
     STDERR.puts 'Error!  No Git path provided.'
     exit!
-  elsif opts['newgit'] and gitrepo
+  elsif @cli.switches['newgit'] and gitrepo
     if hasgit
       STDERR.puts %Q{Error!  Directory "#{gitrepo}" already exists.}
       exit!
@@ -62,7 +60,7 @@ else
       STDERR.puts %Q{Error!  Cannot create directory "#{gitrepo}".}
       exit!
     end
-  elsif opts['newgit']
+  elsif @cli.switches['newgit']
     STDERR.puts %Q{Error!  Name for new Git repository unknown.}
     exit!
   elsif hasgit
@@ -73,7 +71,7 @@ else
   end
 
   if system 'git status'
-    if opts['local']
+    if @cli.switches['local']
       system @fg.mirror_command
     elsif remotes.empty?
       STDERR.print %Q{Error!  Git repository "#{Dir.pwd}" has no remotes.}

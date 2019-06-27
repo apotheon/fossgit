@@ -50,9 +50,9 @@ describe CLI do
 
       it 'returns help text with default name' do
         CLI.new(args).help_text.must_match /USAGE:  #{name} [-h | -v | -t]/
-        CLI.new(args).help_text.must_match /-c CHECKOUT     Specify the/
-        CLI.new(args).help_text.must_match /#{name} tries to push to an/
-        CLI.new(args).help_text.must_match /\s+EXAMPLES:/
+        CLI.new(args).help_text.must_match /-c <CHECKOUT> | --checkout <CHECKOUT>/
+        CLI.new(args).help_text.must_match /By default, #{name} pushes to an/
+        CLI.new(args).help_text.must_match /^\s+CONFIG EXAMPLES:$/
       end
     end
 
@@ -78,6 +78,18 @@ describe CLI do
       optfound = CLI.new(args).option_switch? 'local'
       optfound.must_equal '--local'
       refute args.include? '--local'
+    end
+  end
+
+  describe 'read_switches' do
+    switchopts = %w(alpha charlie golf fox-trot)
+    cli = CLI.new(['-a', '-c', '/path/to/heck', '--trot', '--fox-trot'])
+    cli.parse_switches switchopts
+
+    it 'correctly sets switches' do
+      assert (cli.switches['alpha'] and cli.switches['fox-trot'])
+      refute (cli.switches['golf'] or cli.switches['trot'])
+      cli.switches.keys.sort.must_equal %w(alpha charlie fox-trot golf)
     end
   end
 end
