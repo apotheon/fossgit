@@ -29,8 +29,8 @@ Gem::Specification.new do |s|
     * Git (the world's most popular DVCS)
     * sed (standard on Unix-like systems)
 
-    This update adds support for the full range of long options and for
-    creating a new local Git mirror on the fly via command line option.
+    This update adds support for a full range of long options and for an option
+    to create a new local Git mirror on the fly.  Please report bugs at:
 
         https://fossrec.com/u/apotheon/fossgit/index.cgi/reportlist
 
