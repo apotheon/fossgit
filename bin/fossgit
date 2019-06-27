@@ -22,7 +22,7 @@ elsif @cli.switches['text-export']
   system @fg.text_export_command
   exit
 else
-  if remotes = @cli.get_option 'remotes'
+  if remotes = @cli.get_option('remotes')
     remotes = remotes.split ','
   end
 
