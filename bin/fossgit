@@ -26,7 +26,9 @@ else
   opts[:local] = @cli.option_switch? 'local'
   opts[:all] = @cli.option_switch? 'all'
 
-  remotes = @cli.get_option('remotes')
+  if remotes = @cli.get_option('remotes')
+    remotes = remotes.split ','
+  end
 
   ### NO MORE OPTION PARSING
 
