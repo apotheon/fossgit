@@ -106,7 +106,7 @@ class FossGit
     stat = `fossil status`
 
     if stat.size > 0
-      stat.split(/\n/)
+      stat.split "\n"
     else
       raise ArgumentError, "#{checkout_path} is not a valid checkout path"
     end
