@@ -52,7 +52,7 @@ class CLI
       2. a Fossil repository with an open checkout to export
       3. a Git repository to use as a mirror
 
-      USAGE:  #{name} [-h | -v | -t]
+      USAGE:  #{name} [-h | -v | [-c <CHECKOUT>] -t]
               #{name} [-c <CHECKOUT>] [-a | -r REMOTE | -l] [[-n] GITREPO]
 
           By default, when exporting to local Git repository GITREPO, #{name}
