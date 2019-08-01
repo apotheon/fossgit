@@ -37,7 +37,7 @@ class FossGit
   end
 
   def push_command gitremote
-    "; git checkout trunk; git push #{gitremote} trunk"
+    "; git checkout trunk; git push --all #{gitremote}"
   end
 
   def git_command
