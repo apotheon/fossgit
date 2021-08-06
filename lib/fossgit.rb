@@ -15,7 +15,7 @@ class FossGit
   end
 
   def self.version
-    '1.2.1'
+    '1.2.2'
   end
 
   def fossil_marks
@@ -26,8 +26,16 @@ class FossGit
     File.join checkout_path, 'git.marks'
   end
 
+  def fossil_export_cmd
+    if `fossil help export`.match /This command is deprecated\./
+      'fossil git export --git'
+    else
+      'fossil export --git'
+    end
+  end
+
   def fossil_command
-    cmd = ['fossil export --git']
+    cmd = [fossil_export_cmd]
 
     cmd << "--import-marks #{fossil_marks}" if update_export?
     cmd << "--export-marks #{fossil_marks}"
