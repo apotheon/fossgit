@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name        = 'fossgit'
   s.version     = FossGit.version
   s.authors     = ['Chad Perrin']
-  s.date        = '2019-07-31'
+  s.date        = '2021-08-06'
   s.description = <<-EOF
     Maintain a presence in Git hosting for Fossil project mirrors.
   EOF
